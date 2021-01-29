@@ -16,8 +16,7 @@ much more written in **modern C++**.<br/>
 [Among others](https://github.com/skypjack/entt/wiki/EnTT-in-Action), it's used
 in [**Minecraft**](https://minecraft.net/en-us/attribution/) by Mojang, the
 [**ArcGIS Runtime SDKs**](https://developers.arcgis.com/arcgis-runtime/) by Esri
-and the amazing [**Ragdoll**](https://ragdolldynamics.com/) Autodesk Maya
-plugin.<br/>
+and the amazing [**Ragdoll**](https://ragdolldynamics.com/).<br/>
 If you don't see your project in the list, please open an issue, submit a PR or
 add the [#entt](https://github.com/topics/entt) tag to your _topics_! :+1:
 
@@ -34,11 +33,9 @@ Don't forget to check the
 there.
 
 If you want to say thanks or support `EnTT`, please **consider becoming a
-[sponsor](https://github.com/users/skypjack/sponsorship)**.
+[sponsor](https://github.com/users/skypjack/sponsorship)**.<br/>
 [Many thanks](https://skypjack.github.io/sponsorship/) to those who helped so
-far.
-
-### A special thanks to...
+far. A special thanks to:
 
 [![mojang](https://user-images.githubusercontent.com/1812216/106253145-67ca1980-6217-11eb-9c0b-d93561b37098.png)](https://mojang.com)
 [![imgly](https://user-images.githubusercontent.com/1812216/106253726-271ed000-6218-11eb-98e0-c9c681925770.png)](https://img.ly/)
