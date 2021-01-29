@@ -161,27 +161,48 @@ public:
 
     /**
      * @brief Constructs an any by directly initializing the new object.
+     *
+     * This overload ensures that neither aliasing nor small object optimization
+     * are used. The object will therefore be created dynamically.
+     *
+     * @tparam Type Type of object to use to initialize the wrapper.
+     * @tparam Args Types of arguments to use to construct the new instance.
+     * @param args Parameters to use to construct the instance.
+     */
+    template<typename Type, typename... Args>
+    explicit any(in_place_type_dyn_t<Type>, [[maybe_unused]] Args &&... args)
+        : vtable{&void_vtable},
+          instance{}
+    {
+        if constexpr(!std::is_void_v<Type>) {
+            vtable = &dyn_vtable<std::remove_reference_t<Type>>;
+            instance = new std::remove_reference_t<Type>(std::forward<Args>(args)...);
+        }
+    }
+
+    /**
+     * @brief Constructs an any by directly initializing the new object.
      * @tparam Type Type of object to use to initialize the wrapper.
      * @tparam Args Types of arguments to use to construct the new instance.
      * @param args Parameters to use to construct the instance.
      */
     template<typename Type, typename... Args>
     explicit any(in_place_type_t<Type>, [[maybe_unused]] Args &&... args)
-        : vtable{},
+        : vtable{&void_vtable},
           instance{}
     {
-        if constexpr(std::is_void_v<Type>) {
-            vtable = &void_vtable;
-        } else if constexpr(std::is_lvalue_reference_v<Type>) {
-            static_assert(sizeof...(Args) == 1u && (std::is_lvalue_reference_v<Args> && ...));
-            vtable = &ref_vtable<std::remove_reference_t<Type>>;
-            instance = (&args, ...);
-        } else if constexpr(is_dyn_v<Type>) {
-            vtable = &dyn_vtable<Type>;
-            instance = new Type(std::forward<Args>(args)...);
-        } else {
-            vtable = &sbo_vtable<Type>;
-            new (&storage) Type(std::forward<Args>(args)...);
+        if constexpr(!std::is_void_v<Type>) {
+            if constexpr(std::is_lvalue_reference_v<Type>) {
+                static_assert(sizeof...(Args) == 1u && (std::is_lvalue_reference_v<Args> && ...));
+                vtable = &ref_vtable<std::remove_reference_t<Type>>;
+                instance = (&args, ...);
+            } else if constexpr(is_dyn_v<Type>) {
+                vtable = &dyn_vtable<Type>;
+                instance = new Type(std::forward<Args>(args)...);
+            } else {
+                vtable = &sbo_vtable<Type>;
+                new (&storage) Type(std::forward<Args>(args)...);
+            }
         }
     }
 

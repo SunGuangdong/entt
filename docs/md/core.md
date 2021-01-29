@@ -242,7 +242,10 @@ entt::any empty{};
 entt::any any{0};
 
 // in place construction
-entt::any in_place{std::in_place_type<int>, 42};
+entt::any in_place{entt::in_place_type<int>, 42};
+
+// in place construction, use dynamic storage in all cases
+entt::any in_place_dyn{entt::in_place_type_dyn<int>, 42};
 ```
 
 The `any` class takes the burden of destroying the contained element when
@@ -276,7 +279,7 @@ entt::any cany{std::cref(value)};
 
 // alias construction
 int value = 42;
-entt::any in_place{std::in_place_type<int &>, &value};
+entt::any in_place{entt::in_place_type<int &>, &value};
 ```
 
 In other words, whenever `any` intercepts a `reference_wrapper` or is explicitly

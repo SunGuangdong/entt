@@ -213,7 +213,7 @@ existing instance by means of the `as_ref` function. However, unlike `any`,
 
 ```cpp
 entt::meta_any empty{};
-entt::meta_any other{std::in_place_type<void>};
+entt::meta_any other{entt::in_place_type<void>};
 ```
 
 While `any` treats both objects as empty, `meta_any` treats objects initialized
