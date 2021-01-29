@@ -32,8 +32,8 @@ Don't forget to check the
 [wiki](https://github.com/skypjack/entt/wiki) too. Your answers may already be
 there.
 
-If you want to say thanks or support `EnTT`, please **consider becoming a
-[sponsor](https://github.com/users/skypjack/sponsorship)**.<br/>
+If you want to support `EnTT`, please **consider becoming a
+[sponsor](https://github.com/users/skypjack/sponsorship)**.
 [Many thanks](https://skypjack.github.io/sponsorship/) to those who helped so
 far. A special thanks to:
 
