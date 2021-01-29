@@ -34,8 +34,8 @@ there.
 
 If you want to support `EnTT`, please **consider becoming a
 [sponsor](https://github.com/users/skypjack/sponsorship)**.
-[Many thanks](https://skypjack.github.io/sponsorship/) to those who helped so
-far. A special thanks to:
+Many thanks to [these people](https://skypjack.github.io/sponsorship/) and
+**special** thanks to:
 
 [![mojang](https://user-images.githubusercontent.com/1812216/106253145-67ca1980-6217-11eb-9c0b-d93561b37098.png)](https://mojang.com)
 [![imgly](https://user-images.githubusercontent.com/1812216/106253726-271ed000-6218-11eb-98e0-c9c681925770.png)](https://img.ly/)
