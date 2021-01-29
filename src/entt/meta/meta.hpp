@@ -178,7 +178,7 @@ class ENTT_API meta_node {
                 nullptr,
                 0u,
                 nullptr,
-                [](meta_any * const) { return meta_any{std::in_place_type<Type>}; }
+                [](meta_any * const) { return meta_any{in_place_type<Type>}; }
             };
 
             return &node;
@@ -257,7 +257,7 @@ public:
      * @param instance The container to wrap.
      */
     template<typename Type>
-    meta_sequence_container(std::in_place_type_t<Type>, any instance) ENTT_NOEXCEPT
+    meta_sequence_container(in_place_type_t<Type>, any instance) ENTT_NOEXCEPT
         : value_type_fn{&meta_sequence_container_proxy<Type>::value_type},
           size_fn{&meta_sequence_container_proxy<Type>::size},
           resize_fn{&meta_sequence_container_proxy<Type>::resize},
@@ -317,7 +317,7 @@ public:
      * @param instance The container to wrap.
      */
     template<typename Type>
-    meta_associative_container(std::in_place_type_t<Type>, any instance) ENTT_NOEXCEPT
+    meta_associative_container(in_place_type_t<Type>, any instance) ENTT_NOEXCEPT
         : key_only_container{is_key_only_meta_associative_container_v<Type>},
           key_type_fn{&meta_associative_container_proxy<Type>::key_type},
           mapped_type_fn{&meta_associative_container_proxy<Type>::mapped_type},
@@ -386,13 +386,13 @@ class meta_any {
         case operation::SEQ:
         case operation::CSEQ:
             if constexpr(has_meta_sequence_container_traits_v<Type>) {
-                *static_cast<meta_sequence_container *>(to) = { std::in_place_type<Type>, (op == operation::SEQ ? as_ref(const_cast<any &>(from)) : as_ref(from)) };
+                *static_cast<meta_sequence_container *>(to) = { in_place_type<Type>, (op == operation::SEQ ? as_ref(const_cast<any &>(from)) : as_ref(from)) };
             }
             break;
         case operation::ASSOC:
         case operation::CASSOC:
             if constexpr(has_meta_associative_container_traits_v<Type>) {
-                *static_cast<meta_associative_container *>(to) = { std::in_place_type<Type>, (op == operation::ASSOC ? as_ref(const_cast<any &>(from)) : as_ref(from)) };
+                *static_cast<meta_associative_container *>(to) = { in_place_type<Type>, (op == operation::ASSOC ? as_ref(const_cast<any &>(from)) : as_ref(from)) };
             }
             break;
         }
@@ -413,8 +413,8 @@ public:
      * @param args Parameters to use to construct the instance.
      */
     template<typename Type, typename... Args>
-    explicit meta_any(std::in_place_type_t<Type>, Args &&... args)
-        : storage(std::in_place_type<Type>, std::forward<Args>(args)...),
+    explicit meta_any(in_place_type_t<Type>, Args &&... args)
+        : storage(in_place_type<Type>, std::forward<Args>(args)...),
           vtable{&basic_vtable<std::remove_const_t<std::remove_reference_t<Type>>>},
           node{internal::meta_info<std::remove_const_t<std::remove_reference_t<Type>>>::resolve()}
     {}
@@ -426,7 +426,7 @@ public:
      */
     template<typename Type>
     meta_any(std::reference_wrapper<Type> value)
-        : meta_any{std::in_place_type<Type &>, value.get()}
+        : meta_any{in_place_type<Type &>, value.get()}
     {}
 
     /**
@@ -436,7 +436,7 @@ public:
      */
     template<typename Type, typename = std::enable_if_t<!std::is_same_v<std::remove_cv_t<std::remove_reference_t<Type>>, meta_any>>>
     meta_any(Type &&value)
-        : meta_any{std::in_place_type<std::remove_cv_t<std::remove_reference_t<Type>>>, std::forward<Type>(value)}
+        : meta_any{in_place_type<std::remove_cv_t<std::remove_reference_t<Type>>>, std::forward<Type>(value)}
     {}
 
     /**
@@ -637,7 +637,7 @@ public:
      */
     template<typename Type, typename... Args>
     void emplace(Args &&... args) {
-        *this = meta_any{std::in_place_type<Type>, std::forward<Args>(args)...};
+        *this = meta_any{in_place_type<Type>, std::forward<Args>(args)...};
     }
 
     /*! @brief Destroys contained object */

@@ -11,6 +11,7 @@
 #include "../core/any.hpp"
 #include "../core/type_info.hpp"
 #include "../core/type_traits.hpp"
+#include "../core/utility.hpp"
 
 
 namespace entt {
@@ -196,8 +197,8 @@ public:
      * @param args Parameters to use to construct the instance.
      */
     template<typename Type, typename... Args>
-    explicit poly(std::in_place_type_t<Type>, Args &&... args)
-        : storage{std::in_place_type<Type>, std::forward<Args>(args)...},
+    explicit poly(in_place_type_t<Type>, Args &&... args)
+        : storage{in_place_type<Type>, std::forward<Args>(args)...},
           vtable{poly_vtable<Concept>::template instance<std::remove_const_t<std::remove_reference_t<Type>>>()}
     {}
 
@@ -208,7 +209,7 @@ public:
      */
     template<typename Type>
     poly(std::reference_wrapper<Type> value)
-        : poly{std::in_place_type<Type &>, value.get()}
+        : poly{in_place_type<Type &>, value.get()}
     {}
 
     /**
@@ -218,7 +219,7 @@ public:
      */
     template<typename Type, typename = std::enable_if_t<!std::is_same_v<std::remove_cv_t<std::remove_reference_t<Type>>, poly>>>
     poly(Type &&value) ENTT_NOEXCEPT
-        : poly{std::in_place_type<std::remove_cv_t<std::remove_reference_t<Type>>>, std::forward<Type>(value)}
+        : poly{in_place_type<std::remove_cv_t<std::remove_reference_t<Type>>>, std::forward<Type>(value)}
     {}
 
     /**

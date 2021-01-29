@@ -353,7 +353,7 @@ TEST_F(MetaFunc, AsVoid) {
     auto func = entt::resolve<func_t>().func("v"_hs);
     func_t instance{};
 
-    ASSERT_EQ(func.invoke(instance, 42), entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(func.invoke(instance, 42), entt::meta_any{entt::in_place_type<void>});
     ASSERT_EQ(func.ret(), entt::resolve<void>());
     ASSERT_EQ(instance.value, 42);
 }

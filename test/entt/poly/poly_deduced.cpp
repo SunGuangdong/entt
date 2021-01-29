@@ -45,7 +45,7 @@ TEST(PolyDeduced, Functionalities) {
     impl instance{};
 
     entt::poly<Deduced> empty{};
-    entt::poly<Deduced> in_place{std::in_place_type<impl>, 3};
+    entt::poly<Deduced> in_place{entt::in_place_type<impl>, 3};
     entt::poly<Deduced> alias{std::ref(instance)};
     entt::poly<Deduced> value{impl{}};
 

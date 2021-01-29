@@ -51,7 +51,7 @@ TEST(PolyDefined, Functionalities) {
     impl instance{};
 
     entt::poly<Defined> empty{};
-    entt::poly<Defined> in_place{std::in_place_type<impl>, 3};
+    entt::poly<Defined> in_place{entt::in_place_type<impl>, 3};
     entt::poly<Defined> alias{std::ref(instance)};
     entt::poly<Defined> value{impl{}};
 

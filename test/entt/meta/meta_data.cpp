@@ -483,7 +483,7 @@ TEST_F(MetaData, AsVoid) {
 
     ASSERT_TRUE(data.set(instance, 42));
     ASSERT_EQ(instance.i, 42);
-    ASSERT_EQ(data.get(instance), entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(data.get(instance), entt::meta_any{entt::in_place_type<void>});
 }
 
 TEST_F(MetaData, AsRef) {

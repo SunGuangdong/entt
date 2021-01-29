@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <utility>
 #include "../config/config.h"
+#include "../core/utility.hpp"
 #include "type_info.hpp"
 #include "type_traits.hpp"
 
@@ -155,7 +156,7 @@ class any {
 public:
     /*! @brief Default constructor. */
     any() ENTT_NOEXCEPT
-        : any{std::in_place_type<void>}
+        : any{in_place_type<void>}
     {}
 
     /**
@@ -165,7 +166,7 @@ public:
      * @param args Parameters to use to construct the instance.
      */
     template<typename Type, typename... Args>
-    explicit any(std::in_place_type_t<Type>, [[maybe_unused]] Args &&... args)
+    explicit any(in_place_type_t<Type>, [[maybe_unused]] Args &&... args)
         : vtable{},
           instance{}
     {
@@ -191,7 +192,7 @@ public:
      */
     template<typename Type>
     any(std::reference_wrapper<Type> value) ENTT_NOEXCEPT
-        : any{std::in_place_type<Type &>, value.get()}
+        : any{in_place_type<Type &>, value.get()}
     {}
 
     /**
@@ -201,7 +202,7 @@ public:
      */
     template<typename Type, typename = std::enable_if_t<!std::is_same_v<std::decay_t<Type>, any>>>
     any(Type &&value)
-        : any{std::in_place_type<std::decay_t<Type>>, std::forward<Type>(value)}
+        : any{in_place_type<std::decay_t<Type>>, std::forward<Type>(value)}
     {}
 
     /**
@@ -273,7 +274,7 @@ public:
      */
     template<typename Type, typename... Args>
     void emplace(Args &&... args) {
-        *this = any{std::in_place_type<Type>, std::forward<Args>(args)...};
+        *this = any{in_place_type<Type>, std::forward<Args>(args)...};
     }
 
     /*! @brief Destroys contained object */

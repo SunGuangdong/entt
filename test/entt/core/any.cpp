@@ -63,7 +63,7 @@ TEST(Any, Empty) {
 }
 
 TEST(Any, SBOInPlaceTypeConstruction) {
-    entt::any any{std::in_place_type<int>, 42};
+    entt::any any{entt::in_place_type<int>, 42};
 
     ASSERT_TRUE(any);
     ASSERT_EQ(any.type(), entt::type_id<int>());
@@ -196,7 +196,7 @@ TEST(Any, SBODirectAssignment) {
 
 TEST(Any, NoSBOInPlaceTypeConstruction) {
     fat instance{{.1, .2, .3, .4}};
-    entt::any any{std::in_place_type<fat>, instance};
+    entt::any any{entt::in_place_type<fat>, instance};
 
     ASSERT_TRUE(any);
     ASSERT_EQ(any.type(), entt::type_id<fat>());
@@ -331,7 +331,7 @@ TEST(Any, NoSBODirectAssignment) {
 }
 
 TEST(Any, VoidInPlaceTypeConstruction) {
-    entt::any any{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
 
     ASSERT_FALSE(any);
     ASSERT_FALSE(any.type());
@@ -339,7 +339,7 @@ TEST(Any, VoidInPlaceTypeConstruction) {
 }
 
 TEST(Any, VoidCopyConstruction) {
-    entt::any any{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
     entt::any other{any};
 
     ASSERT_FALSE(any);
@@ -351,8 +351,8 @@ TEST(Any, VoidCopyConstruction) {
 }
 
 TEST(Any, VoidCopyAssignment) {
-    entt::any any{std::in_place_type<void>};
-    entt::any other{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
+    entt::any other{entt::in_place_type<void>};
 
     other = any;
 
@@ -365,7 +365,7 @@ TEST(Any, VoidCopyAssignment) {
 }
 
 TEST(Any, VoidMoveConstruction) {
-    entt::any any{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
     entt::any other{std::move(any)};
 
     ASSERT_FALSE(any);
@@ -377,8 +377,8 @@ TEST(Any, VoidMoveConstruction) {
 }
 
 TEST(Any, VoidMoveAssignment) {
-    entt::any any{std::in_place_type<void>};
-    entt::any other{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
+    entt::any other{entt::in_place_type<void>};
 
     other = std::move(any);
 
@@ -412,7 +412,7 @@ TEST(Any, NoSBOMoveInvalidate) {
 }
 
 TEST(Any, VoidMoveInvalidate) {
-    entt::any any{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
     entt::any other{std::move(any)};
     entt::any valid = std::move(other);
 
@@ -441,7 +441,7 @@ TEST(Any, NoSBODestruction) {
 
 TEST(Any, VoidDestruction) {
     // just let asan tell us if everything is ok here
-    [[maybe_unused]] entt::any any{std::in_place_type<void>};
+    [[maybe_unused]] entt::any any{entt::in_place_type<void>};
 }
 
 TEST(Any, Emplace) {
@@ -499,8 +499,8 @@ TEST(Any, NoSBOSwap) {
 }
 
 TEST(Any, VoidSwap) {
-    entt::any lhs{std::in_place_type<void>};
-    entt::any rhs{std::in_place_type<void>};
+    entt::any lhs{entt::in_place_type<void>};
+    entt::any rhs{entt::in_place_type<void>};
     const auto *pre = lhs.data();
 
     std::swap(lhs, rhs);
@@ -578,7 +578,7 @@ TEST(Any, SBOWithEmptySwap) {
 
 TEST(Any, SBOWithVoidSwap) {
     entt::any lhs{'c'};
-    entt::any rhs{std::in_place_type<void>};
+    entt::any rhs{entt::in_place_type<void>};
 
     std::swap(lhs, rhs);
 
@@ -653,7 +653,7 @@ TEST(Any, NoSBOWithEmptySwap) {
 
 TEST(Any, NoSBOWithVoidSwap) {
     entt::any lhs{fat{{.1, .2, .3, .4}}};
-    entt::any rhs{std::in_place_type<void>};
+    entt::any rhs{entt::in_place_type<void>};
 
     std::swap(lhs, rhs);
 
@@ -777,15 +777,15 @@ TEST(Any, NotComparable) {
 }
 
 TEST(Any, CompareVoid) {
-    entt::any any{std::in_place_type<void>};
+    entt::any any{entt::in_place_type<void>};
 
     ASSERT_EQ(any, any);
-    ASSERT_EQ(any, entt::any{std::in_place_type<void>});
+    ASSERT_EQ(any, entt::any{entt::in_place_type<void>});
     ASSERT_NE(entt::any{'a'}, any);
     ASSERT_EQ(any, entt::any{});
 
     ASSERT_TRUE(any == any);
-    ASSERT_TRUE(any == entt::any{std::in_place_type<void>});
+    ASSERT_TRUE(any == entt::any{entt::in_place_type<void>});
     ASSERT_FALSE(entt::any{'a'} == any);
     ASSERT_TRUE(any != entt::any{'a'});
     ASSERT_FALSE(entt::any{} != any);
@@ -817,12 +817,12 @@ TEST(Any, NotCopyableType) {
         ASSERT_FALSE(copy);
     };
 
-    test(entt::any{std::in_place_type<not_copyable<1>>});
-    test(entt::any{std::in_place_type<not_copyable<4>>});
+    test(entt::any{entt::in_place_type<not_copyable<1>>});
+    test(entt::any{entt::in_place_type<not_copyable<4>>});
 }
 
 TEST(Any, Array) {
-    entt::any any{std::in_place_type<int[1]>};
+    entt::any any{entt::in_place_type<int[1]>};
     entt::any copy{any};
 
     ASSERT_TRUE(any);

@@ -99,6 +99,22 @@ private:
 };
 
 
+/*! @brief Disambiguation tag type for any and the like. */
+template<typename>
+struct in_place_type_t {
+    /*! @brief Explicit default constructors. */
+    explicit in_place_type_t() = default;
+};
+
+
+/**
+ * @brief Disambiguation tag for any and the like.
+ * @tparam Type Type to be constructed in place.
+ */
+template<typename Type>
+inline constexpr in_place_type_t<Type> in_place_type{};
+
+
 }
 
 

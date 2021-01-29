@@ -107,13 +107,13 @@ TEST_F(MetaAny, Empty) {
 }
 
 TEST_F(MetaAny, SBOInPlaceTypeConstruction) {
-    entt::meta_any any{std::in_place_type<int>, 42};
+    entt::meta_any any{entt::in_place_type<int>, 42};
 
     ASSERT_TRUE(any);
     ASSERT_FALSE(any.try_cast<std::size_t>());
     ASSERT_EQ(any.cast<int>(), 42);
     ASSERT_NE(any.data(), nullptr);
-    ASSERT_EQ(any, (entt::meta_any{std::in_place_type<int>, 42}));
+    ASSERT_EQ(any, (entt::meta_any{entt::in_place_type<int>, 42}));
     ASSERT_EQ(any, entt::meta_any{42});
     ASSERT_NE(entt::meta_any{3}, any);
 }
@@ -219,13 +219,13 @@ TEST_F(MetaAny, SBODirectAssignment) {
 TEST_F(MetaAny, NoSBOInPlaceTypeConstruction) {
     int value = 42;
     fat_t instance{&value};
-    entt::meta_any any{std::in_place_type<fat_t>, instance};
+    entt::meta_any any{entt::in_place_type<fat_t>, instance};
 
     ASSERT_TRUE(any);
     ASSERT_FALSE(any.try_cast<std::size_t>());
     ASSERT_EQ(any.cast<fat_t>(), instance);
     ASSERT_NE(any.data(), nullptr);
-    ASSERT_EQ(any, (entt::meta_any{std::in_place_type<fat_t>, instance}));
+    ASSERT_EQ(any, (entt::meta_any{entt::in_place_type<fat_t>, instance}));
     ASSERT_EQ(any, entt::meta_any{instance});
     ASSERT_NE(entt::meta_any{fat_t{}}, any);
 }
@@ -336,58 +336,58 @@ TEST_F(MetaAny, NoSBODirectAssignment) {
 }
 
 TEST_F(MetaAny, VoidInPlaceTypeConstruction) {
-    entt::meta_any any{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
 
     ASSERT_TRUE(any);
     ASSERT_FALSE(any.try_cast<char>());
     ASSERT_EQ(any.data(), nullptr);
     ASSERT_EQ(any.type(), entt::resolve<void>());
-    ASSERT_EQ(any, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(any, entt::meta_any{entt::in_place_type<void>});
     ASSERT_NE(entt::meta_any{3}, any);
 }
 
 TEST_F(MetaAny, VoidCopyConstruction) {
-    entt::meta_any any{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
     entt::meta_any other{any};
 
     ASSERT_TRUE(any);
     ASSERT_TRUE(other);
     ASSERT_EQ(any.type(), entt::resolve<void>());
-    ASSERT_EQ(other, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(other, entt::meta_any{entt::in_place_type<void>});
 }
 
 TEST_F(MetaAny, VoidCopyAssignment) {
-    entt::meta_any any{std::in_place_type<void>};
-    entt::meta_any other{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
+    entt::meta_any other{entt::in_place_type<void>};
 
     other = any;
 
     ASSERT_TRUE(any);
     ASSERT_TRUE(other);
     ASSERT_EQ(any.type(), entt::resolve<void>());
-    ASSERT_EQ(other, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(other, entt::meta_any{entt::in_place_type<void>});
 }
 
 TEST_F(MetaAny, VoidMoveConstruction) {
-    entt::meta_any any{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
     entt::meta_any other{std::move(any)};
 
     ASSERT_FALSE(any);
     ASSERT_TRUE(other);
     ASSERT_EQ(other.type(), entt::resolve<void>());
-    ASSERT_EQ(other, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(other, entt::meta_any{entt::in_place_type<void>});
 }
 
 TEST_F(MetaAny, VoidMoveAssignment) {
-    entt::meta_any any{std::in_place_type<void>};
-    entt::meta_any other{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
+    entt::meta_any other{entt::in_place_type<void>};
 
     other = std::move(any);
 
     ASSERT_FALSE(any);
     ASSERT_TRUE(other);
     ASSERT_EQ(other.type(), entt::resolve<void>());
-    ASSERT_EQ(other, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(other, entt::meta_any{entt::in_place_type<void>});
 }
 
 TEST_F(MetaAny, SBOMoveInvalidate) {
@@ -413,7 +413,7 @@ TEST_F(MetaAny, NoSBOMoveInvalidate) {
 }
 
 TEST_F(MetaAny, VoidMoveInvalidate) {
-    entt::meta_any any{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
     entt::meta_any other{std::move(any)};
     entt::meta_any valid = std::move(other);
 
@@ -436,7 +436,7 @@ TEST_F(MetaAny, NoSBODestruction) {
 
 TEST_F(MetaAny, VoidDestruction) {
     // just let asan tell us if everything is ok here
-    [[maybe_unused]] entt::meta_any any{std::in_place_type<void>};
+    [[maybe_unused]] entt::meta_any any{entt::in_place_type<void>};
 }
 
 TEST_F(MetaAny, Emplace) {
@@ -447,7 +447,7 @@ TEST_F(MetaAny, Emplace) {
     ASSERT_FALSE(any.try_cast<std::size_t>());
     ASSERT_EQ(any.cast<int>(), 42);
     ASSERT_NE(any.data(), nullptr);
-    ASSERT_EQ(any, (entt::meta_any{std::in_place_type<int>, 42}));
+    ASSERT_EQ(any, (entt::meta_any{entt::in_place_type<int>, 42}));
     ASSERT_EQ(any, entt::meta_any{42});
     ASSERT_NE(entt::meta_any{3}, any);
 }
@@ -459,7 +459,7 @@ TEST_F(MetaAny, EmplaceVoid) {
     ASSERT_TRUE(any);
     ASSERT_EQ(any.data(), nullptr);
     ASSERT_EQ(any.type(), entt::resolve<void>());
-    ASSERT_EQ(any, (entt::meta_any{std::in_place_type<void>}));
+    ASSERT_EQ(any, (entt::meta_any{entt::in_place_type<void>}));
 }
 
 TEST_F(MetaAny, Reset) {
@@ -498,8 +498,8 @@ TEST_F(MetaAny, NoSBOSwap) {
 }
 
 TEST_F(MetaAny, VoidSwap) {
-    entt::meta_any lhs{std::in_place_type<void>};
-    entt::meta_any rhs{std::in_place_type<void>};
+    entt::meta_any lhs{entt::in_place_type<void>};
+    entt::meta_any rhs{entt::in_place_type<void>};
     const auto *pre = lhs.data();
 
     std::swap(lhs, rhs);
@@ -538,7 +538,7 @@ TEST_F(MetaAny, SBOWithEmptySwap) {
 
 TEST_F(MetaAny, SBOWithVoidSwap) {
     entt::meta_any lhs{'c'};
-    entt::meta_any rhs{std::in_place_type<void>};
+    entt::meta_any rhs{entt::in_place_type<void>};
 
     std::swap(lhs, rhs);
 
@@ -563,7 +563,7 @@ TEST_F(MetaAny, NoSBOWithEmptySwap) {
 TEST_F(MetaAny, NoSBOWithVoidSwap) {
     int i{};
     entt::meta_any lhs{fat_t{&i}};
-    entt::meta_any rhs{std::in_place_type<void>};
+    entt::meta_any rhs{entt::in_place_type<void>};
 
     std::swap(lhs, rhs);
 
@@ -668,15 +668,15 @@ TEST_F(MetaAny, NotComparable) {
 }
 
 TEST_F(MetaAny, CompareVoid) {
-    entt::meta_any any{std::in_place_type<void>};
+    entt::meta_any any{entt::in_place_type<void>};
 
     ASSERT_EQ(any, any);
-    ASSERT_EQ(any, entt::meta_any{std::in_place_type<void>});
+    ASSERT_EQ(any, entt::meta_any{entt::in_place_type<void>});
     ASSERT_NE(entt::meta_any{'a'}, any);
     ASSERT_NE(any, entt::meta_any{});
 
     ASSERT_TRUE(any == any);
-    ASSERT_TRUE(any == entt::meta_any{std::in_place_type<void>});
+    ASSERT_TRUE(any == entt::meta_any{entt::in_place_type<void>});
     ASSERT_FALSE(entt::meta_any{'a'} == any);
     ASSERT_TRUE(any != entt::meta_any{'a'});
     ASSERT_TRUE(entt::meta_any{} != any);

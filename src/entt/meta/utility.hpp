@@ -9,6 +9,7 @@
 #include <utility>
 #include "../config/config.h"
 #include "../core/type_traits.hpp"
+#include "../core/utility.hpp"
 #include "meta.hpp"
 #include "policy.hpp"
 
@@ -207,7 +208,7 @@ template<typename Type, auto Data, typename Policy = as_is_t>
 [[nodiscard]] meta_any meta_getter([[maybe_unused]] meta_handle instance) {
     [[maybe_unused]] auto dispatch = [](auto &&value) {
         if constexpr(std::is_same_v<Policy, as_void_t>) {
-            return meta_any{std::in_place_type<void>, std::forward<decltype(value)>(value)};
+            return meta_any{in_place_type<void>, std::forward<decltype(value)>(value)};
         } else if constexpr(std::is_same_v<Policy, as_ref_t>) {
             return meta_any{std::reference_wrapper{std::forward<decltype(value)>(value)}};
         } else if constexpr(std::is_same_v<Policy, as_cref_t>) {
@@ -261,7 +262,7 @@ template<typename Type, auto Candidate, typename Policy = as_is_t, std::size_t..
     auto dispatch = [](auto &&... params) {
         if constexpr(std::is_void_v<std::remove_cv_t<typename descriptor::return_type>> || std::is_same_v<Policy, as_void_t>) {
             std::invoke(Candidate, std::forward<decltype(params)>(params)...);
-            return meta_any{std::in_place_type<void>};
+            return meta_any{in_place_type<void>};
         } else if constexpr(std::is_same_v<Policy, as_ref_t>) {
             return meta_any{std::reference_wrapper{std::invoke(Candidate, std::forward<decltype(params)>(params)...)}};
         } else if constexpr(std::is_same_v<Policy, as_cref_t>) {
